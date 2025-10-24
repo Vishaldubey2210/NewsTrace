@@ -1,0 +1,523 @@
+/**
+ * NewsTrace Dashboard CSS
+ * Styles for dashboard page with stats and overview
+ * Version: 1.0
+ */
+
+/* ==================== DASHBOARD LAYOUT ==================== */
+
+.dashboard-container {
+    padding: 30px 0;
+}
+
+.dashboard-header {
+    margin-bottom: 40px;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dashboard-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+}
+
+/* ==================== STAT CARDS ==================== */
+
+.stat-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+}
+
+.stat-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.stat-card-icon.primary {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: #667eea;
+}
+
+.stat-card-icon.success {
+    background: linear-gradient(135deg, rgba(67, 233, 123, 0.2) 0%, rgba(56, 249, 215, 0.2) 100%);
+    border-color: rgba(67, 233, 123, 0.3);
+    color: #43e97b;
+}
+
+.stat-card-icon.warning {
+    background: linear-gradient(135deg, rgba(250, 112, 154, 0.2) 0%, rgba(254, 225, 64, 0.2) 100%);
+    border-color: rgba(250, 112, 154, 0.3);
+    color: #fa709a;
+}
+
+.stat-card-icon.info {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%);
+    border-color: rgba(79, 172, 254, 0.3);
+    color: #4facfe;
+}
+
+.stat-card-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.stat-card-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+.stat-card-change {
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.stat-card-change.positive {
+    background: rgba(67, 233, 123, 0.15);
+    color: #43e97b;
+}
+
+.stat-card-change.negative {
+    background: rgba(245, 87, 108, 0.15);
+    color: #f5576c;
+}
+
+.stat-card-change i {
+    margin-right: 4px;
+}
+
+/* ==================== RECENT ACTIVITY ==================== */
+
+.activity-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border-left: 3px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(5px);
+}
+
+.activity-item:last-child {
+    margin-bottom: 0;
+}
+
+.activity-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.activity-icon.completed {
+    background: rgba(67, 233, 123, 0.15);
+    color: #43e97b;
+}
+
+.activity-icon.pending {
+    background: rgba(250, 112, 154, 0.15);
+    color: #fa709a;
+}
+
+.activity-icon.failed {
+    background: rgba(245, 87, 108, 0.15);
+    color: #f5576c;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-title {
+    font-weight: 600;
+    color: white;
+    margin-bottom: 3px;
+    font-size: 0.95rem;
+}
+
+.activity-meta {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.activity-status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.activity-status.success {
+    background: rgba(67, 233, 123, 0.15);
+    color: #43e97b;
+}
+
+.activity-status.warning {
+    background: rgba(250, 112, 154, 0.15);
+    color: #fa709a;
+}
+
+.activity-status.danger {
+    background: rgba(245, 87, 108, 0.15);
+    color: #f5576c;
+}
+
+/* ==================== QUICK ACTIONS ==================== */
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.quick-action-btn {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.quick-action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+.quick-action-btn i {
+    font-size: 1.5rem;
+    margin-right: 12px;
+    color: #667eea;
+}
+
+.quick-action-btn span {
+    font-weight: 500;
+}
+
+/* ==================== CHARTS SECTION ==================== */
+
+.chart-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+}
+
+.chart-subtitle {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+/* ==================== PROGRESS BARS ==================== */
+
+.progress-item {
+    margin-bottom: 20px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.progress-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+.progress-value {
+    font-size: 0.9rem;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.progress-bar-custom {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    transition: width 1s ease;
+}
+
+/* ==================== EMPTY STATE ==================== */
+
+.dashboard-empty {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.dashboard-empty i {
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 20px;
+}
+
+.dashboard-empty h4 {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+}
+
+.dashboard-empty p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+/* ==================== LOADING STATE ==================== */
+
+.dashboard-skeleton {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 991.98px) {
+    .dashboard-title {
+        font-size: 2rem;
+    }
+    
+    .stat-card-value {
+        font-size: 2rem;
+    }
+    
+    .stat-card {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-title {
+        font-size: 1.75rem;
+    }
+    
+    .stat-card-value {
+        font-size: 1.75rem;
+    }
+    
+    .stat-card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .activity-icon {
+        margin-bottom: 10px;
+    }
+    
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-container {
+        height: 220px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .dashboard-container {
+        padding: 20px 0;
+    }
+    
+    .dashboard-header {
+        margin-bottom: 25px;
+    }
+    
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+    
+    .dashboard-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+    
+    .stat-card-value {
+        font-size: 1.5rem;
+    }
+    
+    .chart-card {
+        padding: 15px;
+    }
+    
+    .chart-container {
+        height: 200px;
+    }
+}
+
+/* ==================== ANIMATIONS ==================== */
+
+.stat-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* ==================== DARK MODE ENHANCEMENTS ==================== */
+
+.dashboard-container {
+    background: transparent;
+}
+
+.stat-card,
+.activity-card,
+.chart-card {
+    backdrop-filter: blur(10px);
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+.stat-card:focus,
+.quick-action-btn:focus,
+.activity-item:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .stat-card,
+    .activity-card,
+    .chart-card {
+        border-width: 2px;
+    }
+}

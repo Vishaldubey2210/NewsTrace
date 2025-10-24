@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Compare Outlets - NewsTrace{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<style>
+    .comparison-header {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    .vs-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .match-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 3px solid #667eea;
+        transition: all 0.3s ease;
+    }
+    
+    .match-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateX(5px);
+    }
+    
+    .similarity-badge {
+        background: rgba(67, 233, 123, 0.2);
+        color: #43e97b;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <!-- Header -->
+    <div class="comparison-header">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h2 class="fw-bold mb-2">
+                    <i class="fas fa-balance-scale me-2"></i>
+                    <span style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        Compare News Outlets
+                    </span>
+                </h2>
+                <p class="text-muted mb-0">Side-by-side comparison of journalist profiles, beats, and influence metrics</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <button class="btn btn-outline-light" onclick="location.reload()">
+                    <i class="fas fa-redo me-2"></i>Reset Comparison
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Outlet Selection -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="gradient-card">
+                <h5 class="fw-bold mb-4">
+                    <i class="fas fa-newspaper me-2"></i>Select Outlets to Compare
+                </h5>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-building me-2"></i>Outlet 1
+                        </label>
+                        <select class="form-select" id="outlet1Select" 
+                                style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 12px;">
+                            <option value="">Select first outlet...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-2 text-center">
+                        <button class="btn btn-gradient w-100" id="compareBtn" style="padding: 12px;">
+                            <i class="fas fa-exchange-alt me-2"></i>Compare
+                        </button>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-building me-2"></i>Outlet 2
+                        </label>
+                        <select class="form-select" id="outlet2Select" 
+                                style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 12px;">
+                            <option value="">Select second outlet...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Comparison Results -->
+    <div id="comparisonResults" style="display: none;">
+        
+        <!-- Stats Comparison -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-5">
+                <div class="gradient-card" style="border-left: 4px solid #667eea;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0" id="outlet1Name">Outlet 1</h5>
+                        <span class="badge bg-primary">A</span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">Journalists</p>
+                                <h3 class="stat-number mb-0" id="outlet1Journalists">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">Avg Influence</p>
+                                <h3 class="stat-number mb-0" id="outlet1AvgInfluence">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">Beats Covered</p>
+                                <h3 class="stat-number mb-0" id="outlet1Beats">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">With Contact</p>
+                                <h3 class="stat-number mb-0" id="outlet1Contact">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                <div class="vs-badge">VS</div>
+            </div>
+            
+            <div class="col-md-5">
+                <div class="gradient-card" style="border-left: 4px solid #764ba2;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0" id="outlet2Name">Outlet 2</h5>
+                        <span class="badge bg-primary">B</span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">Journalists</p>
+                                <h3 class="stat-number mb-0" id="outlet2Journalists">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">Avg Influence</p>
+                                <h3 class="stat-number mb-0" id="outlet2AvgInfluence">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">Beats Covered</p>
+                                <h3 class="stat-number mb-0" id="outlet2Beats">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1 small">With Contact</p>
+                                <h3 class="stat-number mb-0" id="outlet2Contact">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Beat Distribution Comparison -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-12">
+                <div class="gradient-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>Beat Distribution Comparison
+                        </h5>
+                        <span class="badge bg-primary">Grouped Bar Chart</span>
+                    </div>
+                    <canvas id="beatComparisonChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Journalists Comparison -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="gradient-card">
+                    <h5 class="fw-bold mb-4">
+                        <i class="fas fa-trophy me-2"></i>Top 5 Journalists - <span id="outlet1NameTop">Outlet 1</span>
+                    </h5>
+                    <div id="outlet1TopJournalists">
+                        <p class="text-muted text-center">Loading...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="gradient-card">
+                    <h5 class="fw-bold mb-4">
+                        <i class="fas fa-trophy me-2"></i>Top 5 Journalists - <span id="outlet2NameTop">Outlet 2</span>
+                    </h5>
+                    <div id="outlet2TopJournalists">
+                        <p class="text-muted text-center">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cross-Outlet Matches -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class="gradient-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="fw-bold mb-1">
+                                <i class="fas fa-link me-2"></i>Potential Cross-Outlet Matches
+                            </h5>
+                            <p class="text-muted small mb-0">Journalists with similar names detected across outlets</p>
+                        </div>
+                        <span class="badge bg-warning" id="matchCount">0 Matches</span>
+                    </div>
+                    <div id="crossOutletMatches">
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-search fa-3x mb-3" style="opacity: 0.3;"></i>
+                            <p>No cross-outlet matches found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Empty State -->
+    <div class="row" id="emptyState">
+        <div class="col-12">
+            <div class="gradient-card text-center py-5">
+                <i class="fas fa-chart-line fa-4x mb-4" style="color: rgba(255,255,255,0.2);"></i>
+                <h4 class="mb-3">Select Two Outlets to Compare</h4>
+                <p class="text-muted">Choose two different news outlets from the dropdowns above to see detailed comparison</p>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/compare.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+
+{% block title %}Results - NewsTrace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .journalist-card {
+        transition: all 0.3s ease;
+    }
+    
+    .journalist-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .results-header {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    .contact-link {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-link:hover {
+        color: #667eea;
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <!-- Header -->
+    <div class="results-header">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h2 class="fw-bold mb-2">
+                    <i class="fas fa-users me-2"></i>
+                    Journalist Profiles
+                </h2>
+                <p class="text-muted mb-0">
+                    <strong>{{ outlet.name if outlet else 'Unknown Outlet' }}</strong> 
+                    <span class="mx-2">|</span>
+                    <span class="badge bg-primary">{{ journalists|length }} profiles found</span>
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <button class="btn btn-outline-light me-2" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left me-2"></i>Back
+                </button>
+                <a href="/api/export/csv/{{ outlet.id if outlet else 1 }}" class="btn btn-gradient">
+                    <i class="fas fa-download me-2"></i>Export CSV
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem;">Total Profiles</h6>
+                        <h3 class="stat-number mb-0">{{ journalists|length }}</h3>
+                    </div>
+                    <i class="fas fa-users fa-2x" style="color: #667eea;"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem;">Avg Influence</h6>
+                        <h3 class="stat-number mb-0">
+                            {% if journalists %}
+                                {{ "%.1f"|format((journalists|sum(attribute='influence_score')/journalists|length)) }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <i class="fas fa-fire fa-2x" style="color: #764ba2;"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem;">Topics Covered</h6>
+                        <h3 class="stat-number mb-0">
+                            {% set all_beats = journalists|map(attribute='beat')|list %}
+                            {{ all_beats|unique|list|length }}
+                        </h3>
+                    </div>
+                    <i class="fas fa-tags fa-2x" style="color: #4facfe;"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem;">With Contact</h6>
+                        <h3 class="stat-number mb-0">
+                            {{ journalists|selectattr('contact_email')|list|length }}
+                        </h3>
+                    </div>
+                    <i class="fas fa-envelope fa-2x" style="color: #00f2fe;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="gradient-card">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4">
+                        <label class="form-label small mb-1">Search</label>
+                        <input type="text" class="form-control" id="searchInput" 
+                               placeholder="Search journalists..." 
+                               style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small mb-1">Filter by Beat</label>
+                        <select class="form-select" id="beatFilter" 
+                                style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                            <option value="">All Beats</option>
+                            {% for beat in journalists|map(attribute='beat')|unique|list %}
+                            <option value="{{ beat }}">{{ beat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small mb-1">Sort by</label>
+                        <select class="form-select" id="sortBy" 
+                                style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                            <option value="influence">Influence Score</option>
+                            <option value="name">Name (A-Z)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small mb-1">&nbsp;</label>
+                        <button class="btn btn-outline-light w-100" id="resetFilters">
+                            <i class="fas fa-redo me-2"></i>Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Journalist Cards -->
+    <div class="row g-4" id="journalistsList">
+        {% if journalists %}
+            {% for journalist in journalists|sort(attribute='influence_score', reverse=True) %}
+            <div class="col-lg-4 col-md-6 journalist-card" 
+                 data-name="{{ journalist.name|lower }}" 
+                 data-beat="{{ journalist.beat or 'General' }}"
+                 data-influence="{{ journalist.influence_score or 0 }}">
+                <div class="gradient-card h-100">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <h5 class="fw-bold mb-2">{{ journalist.name }}</h5>
+                            <span class="badge bg-primary">{{ journalist.beat or 'General' }}</span>
+                        </div>
+                        <div class="text-end ms-3">
+                            <div class="stat-number" style="font-size: 1.5rem;">
+                                {{ "%.0f"|format(journalist.influence_score or 0) }}
+                            </div>
+                            <small class="text-muted">Influence</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Bio -->
+                    {% if journalist.bio %}
+                    <p class="text-muted small mb-3" style="line-height: 1.6;">
+                        {{ journalist.bio[:150] }}{% if journalist.bio|length > 150 %}...{% endif %}
+                    </p>
+                    {% endif %}
+                    
+                    <!-- Contact Info -->
+                    <div class="mb-3">
+                        {% if journalist.contact_email %}
+                        <div class="mb-2">
+                            <i class="fas fa-envelope me-2" style="color: #667eea;"></i>
+                            <small>
+                                <a href="mailto:{{ journalist.contact_email }}" class="contact-link">
+                                    {{ journalist.contact_email }}
+                                </a>
+                            </small>
+                        </div>
+                        {% endif %}
+                        
+                        {% if journalist.profile_url %}
+                        <div class="mb-2">
+                            <i class="fas fa-link me-2" style="color: #764ba2;"></i>
+                            <small>
+                                <a href="{{ journalist.profile_url }}" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                    View Profile <i class="fas fa-external-link-alt ms-1"></i>
+                                </a>
+                            </small>
+                        </div>
+                        {% endif %}
+                        
+                        {% if journalist.twitter_handle %}
+                        <div class="mb-2">
+                            <i class="fab fa-twitter me-2" style="color: #4facfe;"></i>
+                            <small>
+                                <a href="https://twitter.com/{{ journalist.twitter_handle.replace('@', '') }}" 
+                                   target="_blank" rel="noopener noreferrer" class="contact-link">
+                                    {{ journalist.twitter_handle }}
+                                </a>
+                            </small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Topics -->
+                    {% if journalist.metadata and journalist.metadata.get('topics') %}
+                    <div>
+                        <small class="text-muted d-block mb-2">Topics:</small>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for topic in journalist.metadata.get('topics', [])[:5] %}
+                            <span class="badge bg-secondary">{{ topic }}</span>
+                            {% endfor %}
+                            {% if journalist.metadata.get('topics', [])|length > 5 %}
+                            <span class="badge bg-info">+{{ journalist.metadata.get('topics', [])|length - 5 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="gradient-card text-center py-5">
+                    <i class="fas fa-users fa-4x mb-4" style="color: rgba(255,255,255,0.2);"></i>
+                    <h4 class="mb-3">No Profiles Found</h4>
+                    <p class="text-muted mb-4">Try searching for a different outlet or check back later</p>
+                    <a href="/search" class="btn btn-gradient">
+                        <i class="fas fa-search me-2"></i>Search Again
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Results Count -->
+    <div class="row mt-4" id="resultsCount">
+        <div class="col-12 text-center">
+            <p class="text-muted">
+                Showing <strong id="visibleCount">{{ journalists|length }}</strong> of <strong>{{ journalists|length }}</strong> profiles
+            </p>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    console.log('[RESULTS] Page loaded');
+    
+    var totalProfiles = {{ journalists|length }};
+    
+    // Search functionality
+    $('#searchInput').on('input', function() {
+        filterProfiles();
+    });
+    
+    // Beat filter
+    $('#beatFilter').on('change', function() {
+        filterProfiles();
+    });
+    
+    // Sort functionality
+    $('#sortBy').on('change', function() {
+        sortProfiles($(this).val());
+    });
+    
+    // Reset filters
+    $('#resetFilters').on('click', function() {
+        $('#searchInput').val('');
+        $('#beatFilter').val('');
+        $('#sortBy').val('influence');
+        $('.journalist-card').show();
+        updateVisibleCount();
+    });
+    
+    function filterProfiles() {
+        var searchTerm = $('#searchInput').val().toLowerCase();
+        var selectedBeat = $('#beatFilter').val();
+        
+        var visibleCount = 0;
+        
+        $('.journalist-card').each(function() {
+            var name = $(this).data('name');
+            var beat = $(this).data('beat');
+            
+            var matchesSearch = !searchTerm || name.indexOf(searchTerm) !== -1;
+            var matchesBeat = !selectedBeat || beat === selectedBeat;
+            
+            if (matchesSearch && matchesBeat) {
+                $(this).show();
+                visibleCount++;
+            } else {
+                $(this).hide();
+            }
+        });
+        
+        updateVisibleCount();
+    }
+    
+    function sortProfiles(sortBy) {
+        var container = $('#journalistsList');
+        var cards = $('.journalist-card').detach().toArray();
+        
+        if (sortBy === 'influence') {
+            cards.sort(function(a, b) {
+                return $(b).data('influence') - $(a).data('influence');
+            });
+        } else if (sortBy === 'name') {
+            cards.sort(function(a, b) {
+                var nameA = $(a).data('name');
+                var nameB = $(b).data('name');
+                return nameA.localeCompare(nameB);
+            });
+        }
+        
+        container.append(cards);
+        console.log('[RESULTS] Sorted by:', sortBy);
+    }
+    
+    function updateVisibleCount() {
+        var visibleCount = $('.journalist-card:visible').length;
+        $('#visibleCount').text(visibleCount);
+    }
+});
+</script>
+{% endblock %}

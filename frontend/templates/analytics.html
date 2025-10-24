@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - NewsTrace{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<style>
+    /* Analytics-specific styles */
+    .chart-container {
+        position: relative;
+        height: 300px;
+    }
+    
+    .analytics-header {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    .stat-icon-wrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    #topJournalistsList {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+    
+    /* Custom scrollbar for journalist list */
+    #topJournalistsList::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    #topJournalistsList::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+    }
+    
+    #topJournalistsList::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 4px;
+    }
+    
+    .journalist-item {
+        transition: all 0.3s ease;
+    }
+    
+    .journalist-item:hover {
+        transform: translateX(5px);
+    }
+    
+    .loading-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 300px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <!-- Header -->
+    <div class="analytics-header">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h2 class="fw-bold mb-2">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    <span style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        Advanced Analytics
+                    </span>
+                </h2>
+                <p class="text-muted mb-0">Comprehensive intelligence insights and visualizations across all profiled outlets</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <button class="btn btn-gradient" onclick="location.reload()">
+                    <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Overview Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Total Outlets</p>
+                        <h3 class="stat-number mb-0" id="totalOutlets">
+                            <span class="loading-spinner" style="width: 30px; height: 30px;"></span>
+                        </h3>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-newspaper fa-2x" style="color: #667eea;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Total Journalists</p>
+                        <h3 class="stat-number mb-0" id="totalJournalists">
+                            <span class="loading-spinner" style="width: 30px; height: 30px;"></span>
+                        </h3>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-users fa-2x" style="color: #764ba2;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Avg Influence</p>
+                        <h3 class="stat-number mb-0" id="avgInfluence">
+                            <span class="loading-spinner" style="width: 30px; height: 30px;"></span>
+                        </h3>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-fire fa-2x" style="color: #f093fb;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-2 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Cross-Outlet</p>
+                        <h3 class="stat-number mb-0" id="crossOutlet">
+                            <span class="loading-spinner" style="width: 30px; height: 30px;"></span>
+                        </h3>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-link fa-2x" style="color: #4facfe;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts Row 1 -->
+    <div class="row g-4 mb-4">
+        <!-- Beat Distribution -->
+        <div class="col-lg-6">
+            <div class="gradient-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Beat Distribution
+                    </h5>
+                    <span class="badge bg-primary">Doughnut Chart</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="beatChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Influence Score Distribution -->
+        <div class="col-lg-6">
+            <div class="gradient-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Influence Score Distribution
+                    </h5>
+                    <span class="badge bg-primary">Bar Chart</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="influenceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts Row 2 -->
+    <div class="row g-4 mb-4">
+        <!-- Outlet Comparison -->
+        <div class="col-lg-6">
+            <div class="gradient-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fas fa-building me-2"></i>Outlet Comparison
+                    </h5>
+                    <span class="badge bg-primary">Horizontal Bar</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="outletChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Journalists -->
+        <div class="col-lg-6">
+            <div class="gradient-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fas fa-trophy me-2"></i>Top 10 Journalists
+                    </h5>
+                    <span class="badge bg-primary">By Influence</span>
+                </div>
+                <div id="topJournalistsList">
+                    <div class="loading-placeholder">
+                        <div class="text-center">
+                            <div class="loading-spinner mb-3"></div>
+                            <p class="text-muted">Loading top journalists...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Heatmap -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="gradient-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h5 class="fw-bold mb-1">
+                            <i class="fas fa-th me-2"></i>Journalist-Topic Heatmap
+                        </h5>
+                        <p class="text-muted small mb-0">Distribution of journalists across beats and outlets</p>
+                    </div>
+                    <span class="badge bg-primary">Interactive</span>
+                </div>
+                <div id="heatmapChart" style="min-height: 400px;">
+                    <div class="loading-placeholder">
+                        <div class="text-center">
+                            <div class="loading-spinner mb-3"></div>
+                            <p class="text-muted">Building heatmap visualization...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Empty State (shown when no data) -->
+    <div class="row g-4 mb-4" id="emptyState" style="display: none;">
+        <div class="col-12">
+            <div class="gradient-card">
+                <div class="empty-state">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>No Analytics Data Available</h4>
+                    <p>Profile some news outlets to see comprehensive analytics</p>
+                    <a href="/search" class="btn btn-gradient mt-3">
+                        <i class="fas fa-search me-2"></i>Start Profiling
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+{% endblock %}

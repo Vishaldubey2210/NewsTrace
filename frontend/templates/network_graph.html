@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}Network Graph - NewsTrace{% endblock %}
+
+{% block extra_css %}
+<!-- ✅ Vis.js Library CSS and JS -->
+<link href="https://unpkg.com/vis-network@9.1.2/dist/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+<script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
+
+<!-- Custom Styles -->
+<style>
+#networkContainer {
+    width: 100%;
+    height: 600px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 15px;
+    background: rgba(0,0,0,0.3);
+}
+
+.network-controls {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 20px;
+    padding: 8px 15px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.stat-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-box h4 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.stat-box p {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h2 class="fw-bold mb-2">
+                <i class="fas fa-project-diagram me-2"></i>
+                <span style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    Network Graph Visualization
+                </span>
+            </h2>
+            <p class="text-muted">Explore journalist-topic relationship networks</p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+            <button class="btn btn-outline-light me-2" id="resetZoom">
+                <i class="fas fa-search-minus me-2"></i>Reset View
+            </button>
+            <button class="btn btn-gradient" id="exportGraph">
+                <i class="fas fa-download me-2"></i>Export
+            </button>
+        </div>
+    </div>
+    
+    <!-- Outlet Selection -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="gradient-card">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4">
+                        <label class="form-label">Select News Outlet</label>
+                        <select class="form-select" id="outletSelect" 
+                                style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                            <option value="">Loading outlets...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Layout</label>
+                        <select class="form-select" id="layoutSelect" 
+                                style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                            <option value="physics">Force-Directed (Physics)</option>
+                            <option value="hierarchical">Hierarchical</option>
+                            <option value="circular">Circular</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Search Nodes</label>
+                        <input type="text" class="form-control" id="searchFilter" 
+                               placeholder="Search..." 
+                               style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button class="btn btn-outline-light w-100" id="clearFilter">
+                            <i class="fas fa-times me-2"></i>Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Legend -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="network-controls">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="d-flex flex-wrap gap-2">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #667eea;"></div>
+                            <span>Journalists</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f093fb;"></div>
+                            <span>Topics/Beats</span>
+                        </div>
+                        <div class="legend-item">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <span>Click nodes for details</span>
+                        </div>
+                    </div>
+                    <div class="text-muted">
+                        <small>Selected: <strong id="selectedNode">None</strong></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Network Graph -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="gradient-card">
+                <div id="networkContainer">
+                    <div style="display: flex; align-items: center; justify-content: center; height: 600px;">
+                        <div class="text-center">
+                            <i class="fas fa-project-diagram fa-3x mb-3" style="color: rgba(255,255,255,0.2);"></i>
+                            <h5 class="mb-2">Select an Outlet</h5>
+                            <p class="text-muted">Choose a news outlet above to view its network graph</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Statistics -->
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="stat-box">
+                <h4 id="nodeCount">0</h4>
+                <p>Total Nodes</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-box">
+                <h4 id="edgeCount">0</h4>
+                <p>Total Connections</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-box">
+                <h4 id="journalistCount">0</h4>
+                <p>Journalists</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-box">
+                <h4 id="topicCount">0</h4>
+                <p>Topics</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Node Details Panel -->
+    <div class="row mt-4" id="nodeDetailsPanel" style="display: none;">
+        <div class="col-12">
+            <div class="gradient-card">
+                <h5 class="fw-bold mb-3">
+                    <i class="fas fa-info-circle me-2"></i>Node Details
+                </h5>
+                <div id="nodeDetails">
+                    <p class="text-muted">Select a node to view details</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/network_graph.js') }}"></script>
+{% endblock %}

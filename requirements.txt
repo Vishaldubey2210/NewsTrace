@@ -1,0 +1,49 @@
+# NewsTrace - Complete Requirements
+# Core Framework
+Flask==3.0.0
+Flask-CORS==4.0.0
+python-dotenv==1.0.0
+
+# Web Scraping
+playwright==1.40.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+requests==2.31.0
+
+# Search & Detection
+duckduckgo-search==4.1.1
+validators==0.22.0
+fake-useragent==1.4.0
+
+# NLP & Text Processing
+spacy==3.7.2
+nltk==3.8.1
+textblob==0.17.1
+
+# Machine Learning (Optional)
+scikit-learn==1.3.2
+
+# Fuzzy Matching
+fuzzywuzzy==0.18.0
+python-Levenshtein==0.23.0
+
+# Graph & Network Analysis
+networkx==3.2.1
+python-louvain==0.16
+
+# Data Processing
+pandas==2.1.4
+numpy==1.26.2
+
+# Visualization (Optional)
+plotly==5.18.0
+matplotlib==3.8.2
+
+# Production
+gunicorn==21.2.0
+
+# Development & Testing (Optional)
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.12.1
+flake8==7.0.0

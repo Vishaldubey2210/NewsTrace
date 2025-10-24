@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Search Outlet - NewsTrace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .step-item {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.4);
+        transition: all 0.3s ease;
+    }
+    
+    .step-item.active {
+        color: #667eea;
+        font-weight: bold;
+    }
+    
+    .step-item.completed {
+        color: #00f2fe;
+    }
+    
+    .step-item i {
+        font-size: 0.7rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <!-- Search Card -->
+            <div class="gradient-card">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-3">
+                        <i class="fas fa-search me-2"></i>
+                        <span style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            Profile News Outlet
+                        </span>
+                    </h2>
+                    <p class="text-muted">
+                        Enter any news outlet name and let our AI agents do the rest
+                    </p>
+                </div>
+                
+                <!-- Search Form -->
+                <form id="searchForm">
+                    <div class="mb-4">
+                        <label for="outletName" class="form-label fw-bold">News Outlet Name</label>
+                        <input type="text" 
+                               class="form-control form-control-lg" 
+                               id="outletName" 
+                               placeholder="e.g., The Hindu, Indian Express, Times of India"
+                               required
+                               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                        <div class="form-text text-muted">
+                            Just the outlet name - we'll find the website automatically
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-gradient btn-lg" id="submitBtn">
+                            <i class="fas fa-rocket me-2"></i>
+                            Start Autonomous Profiling
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Loading State -->
+                <div id="loadingState" class="text-center mt-4" style="display: none;">
+                    <div class="loading-spinner mx-auto mb-3"></div>
+                    <h5 class="fw-bold mb-2">AI Agents Working...</h5>
+                    <p class="text-muted mb-3" id="statusText">Initializing multi-agent system</p>
+                    
+                    <!-- Progress Steps -->
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="step-item" id="step1">
+                                <i class="fas fa-circle"></i> Website Detection
+                            </span>
+                            <span class="step-item" id="step2">
+                                <i class="fas fa-circle"></i> Profile Extraction
+                            </span>
+                            <span class="step-item" id="step3">
+                                <i class="fas fa-circle"></i> Data Processing
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Preview -->
+                <div id="resultsPreview" class="mt-4" style="display: none;">
+                    <div class="alert alert-success">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-check-circle me-2"></i>Profiling Complete!
+                        </h5>
+                        <p class="mb-2">Successfully extracted <strong id="profileCount">0</strong> journalist profiles</p>
+                        <hr>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="#" class="btn btn-sm btn-success" id="viewResultsBtn">
+                                <i class="fas fa-eye me-1"></i>View Results
+                            </a>
+                            <button class="btn btn-sm btn-outline-success" id="exportCsvBtn">
+                                <i class="fas fa-download me-1"></i>Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Error State -->
+                <div id="errorState" class="mt-4" style="display: none;">
+                    <div class="alert alert-danger">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-exclamation-circle me-2"></i>Profiling Failed
+                        </h5>
+                        <p class="mb-0" id="errorMessage">An error occurred</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Searches -->
+            <div class="gradient-card mt-4">
+                <h5 class="fw-bold mb-3">
+                    <i class="fas fa-history me-2"></i>Recent Searches
+                </h5>
+                <div id="recentSearches">
+                    <p class="text-muted">No recent searches</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}

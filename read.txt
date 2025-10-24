@@ -1,0 +1,171 @@
+NewsTrace/
+│
+├── README.md                           # Project documentation
+├── requirements.txt                    # Python dependencies
+├── .env.example                        # Environment variables template
+├── .gitignore                          # Git ignore rules
+├── config.py                           # Application configuration
+├── run.py                              # Flask app entry point
+│
+├── app/                                # Main Flask Application
+│   ├── __init__.py                     # Flask app factory
+│   ├── routes.py                       # API routes and endpoints
+│   ├── models.py                       # Database models (SQLite)
+│   │
+│   ├── agents/                         # Multi-Agent System
+│   │   ├── __init__.py
+│   │   ├── base_agent.py              # Abstract base agent
+│   │   ├── search_agent.py            # Website detection agent
+│   │   ├── scraper_agent.py           # Web scraping agent
+│   │   ├── validation_agent.py        # Data validation agent
+│   │   ├── intelligence_agent.py      # NLP & analysis agent
+│   │   └── orchestrator.py            # Multi-agent coordinator
+│   │
+│   ├── scrapers/                       # Web Scraping Modules
+│   │   ├── __init__.py
+│   │   ├── website_detector.py        # Detect official website
+│   │   ├── playwright_scraper.py      # Dynamic scraper (Playwright)
+│   │   ├── bs4_scraper.py             # Static scraper (BeautifulSoup)
+│   │   ├── scraper_factory.py         # Scraper selection logic
+│   │   └── utils.py                   # Scraping utilities
+│   │
+│   ├── nlp/                            # NLP Processing (No LLM)
+│   │   ├── __init__.py
+│   │   ├── entity_extractor.py        # Extract names, beats (spaCy)
+│   │   ├── keyword_extractor.py       # Keyword extraction (TF-IDF)
+│   │   ├── topic_modeler.py           # Topic clustering (LDA)
+│   │   └── sentiment_analyzer.py      # Sentiment analysis (TextBlob)
+│   │
+│   ├── database/                       # Database Operations
+│   │   ├── __init__.py
+│   │   ├── sqlite_db.py               # SQLite CRUD operations
+│   │   ├── graph_builder.py           # NetworkX graph construction
+│   │   ├── schema.sql                 # Database schema
+│   │   └── queries.py                 # SQL query templates
+│   │
+│   ├── analytics/                      # Intelligence & Analytics
+│   │   ├── __init__.py
+│   │   ├── influence_score.py         # Journalist influence algorithm
+│   │   ├── cross_outlet_tracker.py    # Cross-outlet matching
+│   │   ├── bias_detector.py           # Bias & diversity analysis
+│   │   └── community_detector.py      # Journalist clustering
+│   │
+│   ├── export/                         # Data Export
+│   │   ├── __init__.py
+│   │   ├── csv_exporter.py            # Export to CSV
+│   │   ├── json_exporter.py           # Export to JSON
+│   │   └── graph_exporter.py          # Export NetworkX graphs
+│   │
+│   └── utils/                          # Utility Functions
+│       ├── __init__.py
+│       ├── logger.py                  # Logging configuration
+│       ├── validators.py              # Data validation
+│       └── helpers.py                 # Helper functions
+│
+├── frontend/                           # HTML/CSS/JS Frontend
+│   ├── templates/                      # Jinja2 HTML Templates
+│   │   ├── base.html                  # Base template (Bootstrap)
+│   │   ├── index.html                 # Landing page
+│   │   ├── dashboard.html             # Main dashboard
+│   │   ├── search.html                # Outlet search page
+│   │   ├── results.html               # Journalist profiles display
+│   │   ├── network_graph.html         # Network visualization
+│   │   ├── analytics.html             # Analytics & insights
+│   │   └── compare.html               # Cross-outlet comparison
+│   │
+│   └── static/                         # Static Assets
+│       ├── css/
+│       │   ├── main.css               # Main styles
+│       │   ├── dashboard.css          # Dashboard styles
+│       │   ├── network.css            # Network graph styles
+│       │   └── responsive.css         # Mobile responsive
+│       │
+│       ├── js/
+│       │   ├── main.js                # Main JavaScript
+│       │   ├── api.js                 # API calls (AJAX)
+│       │   ├── network_graph.js       # Vis.js visualization
+│       │   ├── charts.js              # Chart.js visualizations
+│       │   ├── analytics.js           # Analytics logic
+│       │   └── search.js              # Search functionality
+│       │
+│       └── images/
+│           ├── logo.png               # Project logo
+│           └── favicon.ico            # Browser favicon
+│
+├── data/                               # Data Storage
+│   ├── database/
+│   │   └── newstrace.db               # SQLite database (auto-generated)
+│   ├── cache/
+│   │   └── .gitkeep
+│   ├── exports/
+│   │   └── .gitkeep
+│   └── graphs/
+│       └── .gitkeep
+│
+├── tests/                              # Unit & Integration Tests
+│   ├── __init__.py
+│   ├── test_agents.py                 # Test multi-agent system
+│   ├── test_scrapers.py               # Test scraping modules
+│   ├── test_nlp.py                    # Test NLP processing
+│   ├── test_database.py               # Test database operations
+│   └── test_api.py                    # Test Flask API endpoints
+│
+├── scripts/                            # Utility Scripts
+│   ├── setup_db.py                    # Initialize database
+│   ├── download_models.py             # Download spaCy & NLTK models
+│   ├── demo_scraper.py                # Demo scraping script
+│   └── test_website_detection.py      # Test website detection
+│
+├── docs/                               # Documentation
+│   ├── ARCHITECTURE.md                # System architecture
+│   ├── API.md                         # API documentation
+│   ├── AGENTS.md                      # Multi-agent system docs
+│   └── DEPLOYMENT.md                  # Deployment guide
+│
+└── logs/                               # Application Logs
+    └── .gitkeep
+# 🚀 NewsTrace - Autonomous Media Intelligence System
+
+> AI-powered journalist profiling system with **zero LLMs** | Built for competitive edge
+
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-green.svg)](https://flask.palletsprojects.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+## 📋 Overview
+
+**NewsTrace** is an autonomous media intelligence system that profiles journalists across news outlets using multi-agent AI architecture. Built for hackathons with **NO LLMs** - uses classical NLP and graph analysis.
+
+### ✨ Key Features
+
+- 🔍 **Autonomous Website Detection** - Finds official websites from outlet names
+- 🕷️ **Smart Web Scraping** - Playwright + BeautifulSoup hybrid scraper
+- 🤖 **Multi-Agent System** - Coordinated AI agents without LLMs
+- 📊 **Network Graph Analysis** - NetworkX-powered relationship visualization
+- 🧠 **Classical NLP** - spaCy + NLTK for entity extraction
+- 📈 **Influence Scoring** - PageRank-style journalist ranking
+- 🔗 **Cross-Outlet Tracking** - Fuzzy matching across media outlets
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Framework:** Flask 3.0
+- **Database:** SQLite + NetworkX
+- **Scraping:** Playwright, Selenium, BeautifulSoup
+- **NLP:** spaCy, NLTK, scikit-learn
+- **Search:** DuckDuckGo Search API
+
+### Frontend
+- **UI:** HTML/CSS/JS with Bootstrap 5
+- **Visualization:** Vis.js, Chart.js, Plotly
+- **Design:** Gradient-based modern UI
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.9+
+- pip package manager
+
+### Installation
+
+1. **Clone Repository**
