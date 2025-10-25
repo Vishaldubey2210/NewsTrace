@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: newstrace
+    env: python
+    buildCommand: pip install -r requirements.txt && python -m spacy download en_core_web_sm
+    startCommand: gunicorn run:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: FLASK_ENV
+        value: production
+      - key: PLAYWRIGHT_HEADLESS
+        value: False
+      - key: ENABLE_PLAYWRIGHT
+        value: False
