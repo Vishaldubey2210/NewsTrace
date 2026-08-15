@@ -1,22 +1,37 @@
-
-
-## 📄 **README.md - CRISP & AESTHETIC VERSION**
-
-```markdown
 <div align="center">
+
+<br/>
+
+<img src="https://img.shields.io/badge/NewsTrace-Autonomous%20Media%20Intelligence-6c63ff?style=for-the-badge&logo=rss&logoColor=white" alt="NewsTrace Banner"/>
+
+<br/><br/>
 
 # 🗞️ NewsTrace
 
-**Autonomous Media Intelligence System**
+### *Autonomous Media Intelligence System*
 
-![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat-square&logo=python)
-![Flask](https://img.shields.io/badge/Flask-3.0-green?style=flat-square&logo=flask)
-![spaCy](https://img.shields.io/badge/NLP-spaCy-orange?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9+-3776AB?style=flat-square&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Flask-3.0-000000?style=flat-square&logo=flask&logoColor=white"/>
+  <img src="https://img.shields.io/badge/spaCy-NLP-09A3D5?style=flat-square&logo=spacy&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Playwright-Scraping-2EAD33?style=flat-square&logo=playwright&logoColor=white"/>
+  <img src="https://img.shields.io/badge/NetworkX-Graph_Analysis-orange?style=flat-square"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Hack_of_Thrones-2025-purple?style=flat-square"/>
+</p>
 
-*Profile journalists autonomously • No LLMs needed • Built for Hack of Thrones 2025*
+<p align="center">
+  <b>Profile journalists autonomously · Zero LLMs · Built for Hack of Thrones 2025</b>
+</p>
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Tech Stack](#-tech-stack) • [Demo](#-demo)
+<p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-screenshots">Screenshots</a> •
+  <a href="#-how-it-works">How It Works</a> •
+  <a href="#-api-reference">API Reference</a>
+</p>
 
 </div>
 
@@ -24,18 +39,16 @@
 
 ## 🎯 What is NewsTrace?
 
-**NewsTrace** automatically profiles journalists from any news outlet using AI agents, web scraping, and NLP - all **without using any LLMs**. Just enter an outlet name, and watch the magic happen!
+**NewsTrace** is a fully autonomous journalist profiling system that scrapes, analyzes, and visualizes journalist data from any news outlet — **without using a single LLM or paid API**.
 
-### The Problem
-Tracking journalist profiles, beats, and influence across news outlets is time-consuming and requires expensive LLM APIs.
+Just enter a news outlet name and let the system:
+- 🔍 Find the outlet's official website automatically
+- 🕷️ Scrape journalist profiles intelligently
+- 🧠 Analyze text using spaCy & NLTK (no LLM cost!)
+- 📊 Build interactive journalist-topic network graphs
+- 💾 Export complete journalist data as CSV or JSON
 
-### Our Solution
-A fully autonomous system that:
-- 🔍 Finds outlet websites automatically
-- 🕷️ Scrapes journalist profiles intelligently  
-- 🧠 Analyzes text using spaCy (no LLMs!)
-- 📊 Builds relationship networks
-- 💾 Exports complete data
+> Built for **Hack of Thrones 2025** — autonomously profiling media at scale.
 
 ---
 
@@ -45,30 +58,68 @@ A fully autonomous system that:
 <tr>
 <td width="50%">
 
-### 🤖 Autonomous Detection
-Auto-discovers official websites from outlet names using multi-search algorithms
+#### 🤖 Autonomous Website Detection
+Multi-algorithm search that finds official news outlet websites from just a name — no manual URL needed.
 
-### 🕸️ Smart Scraping
-Playwright + BeautifulSoup hybrid that adapts to any site structure
+#### 🕸️ Playwright + BeautifulSoup Hybrid Scraper
+Adapts to any site structure — handles JavaScript-heavy pages and static HTML alike.
 
-### 🧠 NLP Analysis
-spaCy & NLTK for entity extraction, keyword analysis - zero LLMs!
+#### 🧠 NLP Analysis (Zero LLMs)
+spaCy entity extraction + NLTK keyword analysis + TextBlob sentiment — all local, all free.
 
 </td>
 <td width="50%">
 
-### 📊 Network Graphs
-Interactive Vis.js visualizations of journalist-topic relationships
+#### 📊 Interactive Network Graphs
+Vis.js powered journalist-topic relationship maps with real-time physics simulation.
 
-### 🎯 Influence Scoring
-Custom PageRank algorithm ranks journalist influence
+#### 🎯 Influence Scoring Engine
+Custom PageRank-inspired algorithm that ranks journalists by cross-topic reach and impact.
 
-### 📁 Export Ready
-Download profiles as CSV or access via REST API
+#### 📁 Export & REST API
+Download complete journalist datasets as CSV or query via a clean REST API with 21 endpoints.
 
 </td>
 </tr>
 </table>
+
+---
+
+## 🖼️ Screenshots
+
+### 🏠 Landing Page — Autonomous Media Intelligence
+
+![Landing Page](https://raw.githubusercontent.com/Vishaldubey2210/NewsTrace/main/Screenshot%20(369).png)
+
+---
+
+### 🔧 Core Features & Tech Stack Overview
+
+![Features Page](https://raw.githubusercontent.com/Vishaldubey2210/NewsTrace/main/Screenshot%20(370).png)
+
+---
+
+### 📊 Dashboard — Real-Time Analytics Hub
+
+![Dashboard](https://raw.githubusercontent.com/Vishaldubey2210/NewsTrace/main/Screenshot%20(372).png)
+
+---
+
+### 🔍 Search — Profile Any News Outlet
+
+![Search Page](https://raw.githubusercontent.com/Vishaldubey2210/NewsTrace/main/Screenshot%20(374).png)
+
+---
+
+### 🕸️ Network Graph Visualization
+
+![Network Graph](https://raw.githubusercontent.com/Vishaldubey2210/NewsTrace/main/Screenshot%20(375).png)
+
+---
+
+### 📈 Advanced Analytics Dashboard
+
+![Analytics](https://raw.githubusercontent.com/Vishaldubey2210/NewsTrace/main/Screenshot%20(377).png)
 
 ---
 
@@ -76,47 +127,45 @@ Download profiles as CSV or access via REST API
 
 ### Prerequisites
 
-- Python 3.9+
-- pip
-- 2GB free space
-
-### Installation (5 minutes)
-
 ```
-# 1. Clone repository
-git clone https://github.com/yourusername/NewsTrace.git
+Python 3.9+   pip   2GB free space
+```
+
+### Installation (5 Minutes)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/Vishaldubey2210/NewsTrace.git
 cd NewsTrace
 
-# 2. Create virtual environment
+# 2. Create & activate virtual environment
 python -m venv venv
 
-# 3. Activate virtual environment
-# Windows:
+# Windows
 venv\Scripts\activate
-# Linux/Mac:
+
+# Linux / macOS
 source venv/bin/activate
 
-# 4. Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 5. Download NLP model
+# 4. Download NLP model
 python -m spacy download en_core_web_sm
 
-# 6. Install browsers
-playwright install
+# 5. Install Playwright browser drivers
+python -m playwright install chromium
 
-# 7. Create config file
-echo "FLASK_ENV=development
-FLASK_HOST=0.0.0.0
-FLASK_PORT=5000" > .env
+# 6. Create environment config
+cp .env.example .env
 
-# 8. Run!
-python run.py
+# 7. Launch the app!
+python -X utf8 run.py
 ```
 
-### Access the App
+### ✅ Access the Application
 
-Open browser: **http://localhost:5000**
+Open your browser: **http://localhost:5000**
 
 That's it! 🎉
 
@@ -124,126 +173,121 @@ That's it! 🎉
 
 ## 💻 Tech Stack
 
-<table>
-<tr>
-<td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="50"/>
-<br><b>Python</b>
-</td>
-<td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="50"/>
-<br><b>Flask</b>
-</td>
-<td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="50"/>
-<br><b>SQLite</b>
-</td>
-<td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" width="50"/>
-<br><b>Bootstrap</b>
-</td>
-<td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="50"/>
-<br><b>JavaScript</b>
-</td>
-</tr>
-</table>
-
-**Backend:** Flask • spaCy • NLTK • NetworkX • Playwright • BeautifulSoup  
-**Frontend:** Bootstrap 5 • jQuery • Chart.js • Vis.js  
-**Database:** SQLite • SQLAlchemy
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **Backend** | Python 3.9+ · Flask 3.0 | Core web framework & API |
+| **Scraping** | Playwright · BeautifulSoup4 · lxml | Intelligent web scraping |
+| **NLP** | spaCy 3.x · NLTK · TextBlob | Entity extraction, sentiment, keywords |
+| **Graph Analysis** | NetworkX · python-louvain | Journalist relationship networks |
+| **Search** | DuckDuckGo Search API | Autonomous outlet discovery |
+| **Database** | SQLite · SQLAlchemy | Persistent journalist data storage |
+| **Frontend** | Bootstrap 5 · jQuery · Vis.js · Chart.js | Rich, interactive UI |
+| **ML (Optional)** | scikit-learn | TF-IDF keyword extraction, LDA topics |
 
 ---
 
-## 🎨 Screenshots
-
-<div align="center">
-
-### Landing Page
-![Landing](https://via.placeholder.com/800x400/667eea/ffffff?text=Beautiful+Gradient+Landing+Page)
-
-### Dashboard
-![Dashboard](https://via.placeholder.com/800x400/764ba2/ffffff?text=Real-Time+Analytics+Dashboard)
-
-### Network Graph
-![Network](https://via.placeholder.com/800x400/f093fb/ffffff?text=Interactive+Network+Visualization)
-
-</div>
-
----
-
-## 📖 How to Use
-
-### 1️⃣ Profile an Outlet
+## ⚙️ How It Works
 
 ```
-1. Go to Search page
-2. Enter outlet name: "The Hindu"
-3. Click "Start Autonomous Profiling"
-4. Wait 2-5 minutes
-5. View results!
-```
+┌─────────────────────────────────────────────────────────┐
+│                   NewsTrace Pipeline                    │
+└─────────────────────────────────────────────────────────┘
 
-**What you get:**
-- ✅ Journalist names & bios
-- ✅ Beats/topics covered
-- ✅ Contact info (email, Twitter)
-- ✅ Influence scores
-- ✅ Profile URLs
-
-### 2️⃣ Explore Network Graph
-
-```
-1. Go to Network page
-2. Select outlet from dropdown
-3. Interact with graph:
-   - Click nodes for details
-   - Drag to rearrange
-   - Zoom to explore
-```
-
-### 3️⃣ View Analytics
-
-```
-1. Go to Dashboard
-2. See live stats
-3. Track scraping jobs
-4. Monitor system health
-```
-
-### 4️⃣ Export Data
-
-```
-Click "Export CSV" on results page
-OR
-Use API: GET /api/export/csv/{outlet_id}
+ 1. INPUT       → User enters a news outlet name
+                      ↓
+ 2. DISCOVER    → Multi-source search finds official website URL
+                      ↓
+ 3. SCRAPE      → Playwright + BS4 extracts journalist profiles
+                      ↓
+ 4. NLP         → spaCy / NLTK analyzes bios, topics, entities
+                      ↓
+ 5. SCORE       → PageRank-inspired influence scoring
+                      ↓
+ 6. GRAPH       → NetworkX builds journalist-topic network
+                      ↓
+ 7. VISUALIZE   → Vis.js renders interactive graph in browser
+                      ↓
+ 8. EXPORT      → CSV / JSON download or REST API access
 ```
 
 ---
 
-## 🔌 API Endpoints
+## 📖 Usage Guide
 
+### 1️⃣ Profile a News Outlet
+
+1. Navigate to the **Search** page
+2. Enter any outlet name (e.g., `The Hindu`, `BBC`, `Reuters`)
+3. Click **"Start Autonomous Profiling"**
+4. Wait 2–5 minutes while the AI agents work
+5. View results on the Dashboard!
+
+**What you get back:**
+| Data | Example |
+|------|---------|
+| Journalist Name | Priya Sharma |
+| Bio / Description | Senior Political Correspondent |
+| Beats / Topics | Politics, Economy, National |
+| Contact Info | email, Twitter handle |
+| Profile URL | Direct link to journalist page |
+| Influence Score | 87.4 / 100 |
+
+### 2️⃣ Explore the Network Graph
+
+1. Go to **Network** page
+2. Select an outlet from the dropdown
+3. Interact with the graph:
+   - 🖱️ **Click** nodes to see journalist details
+   - 🖱️ **Drag** to reposition nodes
+   - 🔍 **Search** to highlight specific journalists
+   - 📤 **Export** the graph as JSON
+
+### 3️⃣ Advanced Analytics
+
+1. Navigate to **Analytics** page
+2. View beat distribution charts, influence score histograms
+3. Filter by outlet, beat, or date range
+4. Export charts or raw data
+
+---
+
+## 🌐 API Reference
+
+Base URL: `http://localhost:5000/api`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/health` | System health check |
+| `GET` | `/outlets` | List all profiled outlets |
+| `POST` | `/scrape` | Start a new profiling job |
+| `GET` | `/journalists` | Get all journalists |
+| `GET` | `/journalists/<id>` | Get journalist by ID |
+| `GET` | `/network/<outlet>` | Get network graph data |
+| `GET` | `/analytics/summary` | Overall analytics summary |
+| `GET` | `/export/csv` | Export data as CSV |
+| `GET` | `/export/json` | Export data as JSON |
+
+### Example Request
+
+```bash
+# Start profiling a news outlet
+curl -X POST http://localhost:5000/api/scrape \
+  -H "Content-Type: application/json" \
+  -d '{"outlet_name": "The Hindu"}'
+
+# Check API health
+curl http://localhost:5000/api/health
 ```
-# Health check
-GET /api/health
 
-# Start profiling
-POST /api/profile
+### Example Response
+
+```json
 {
-  "outlet_name": "The Hindu"
+  "service": "NewsTrace API",
+  "status": "healthy",
+  "version": "1.0.0",
+  "timestamp": "2025-08-16T03:22:00Z"
 }
-
-# Get journalists
-GET /api/journalists/{outlet_id}
-
-# Get network graph
-GET /api/network/graph/{outlet_id}
-
-# Export CSV
-GET /api/export/csv/{outlet_id}
-
-# Recent jobs
-GET /api/jobs/recent
 ```
 
 ---
@@ -252,213 +296,110 @@ GET /api/jobs/recent
 
 ```
 NewsTrace/
-├── run.py                 # Entry point
-├── config.py             # Configuration
-├── requirements.txt      # Dependencies
-├── app/
-│   ├── __init__.py      # Flask factory
-│   ├── routes.py        # API routes
-│   ├── models.py        # Database models
-│   ├── agents/          # Multi-agent system
-│   ├── scrapers/        # Web scraping
-│   ├── database/        # DB & graphs
-│   ├── nlp/             # NLP processing
-│   └── utils/           # Helpers
-├── frontend/
-│   ├── static/          # CSS, JS, Images
-│   └── templates/       # HTML pages
-├── data/                # Auto-generated
-│   ├── database/       # SQLite files
-│   ├── cache/          # Cached data
-│   └── exports/        # CSV exports
-└── logs/                # Application logs
+├── 📂 app/
+│   ├── 📂 agents/          # Autonomous scraping agents
+│   ├── 📂 database/        # SQLite models & queries
+│   ├── 📂 nlp/             # spaCy, NLTK, TextBlob modules
+│   ├── 📂 analytics/       # Influence scoring & analytics
+│   ├── 📂 graph/           # NetworkX graph builders
+│   └── routes.py           # All 21 Flask API routes
+├── 📂 frontend/            # HTML templates + static assets
+│   ├── templates/
+│   └── static/
+├── 📂 data/
+│   ├── database/           # SQLite database files
+│   └── exports/            # CSV & JSON exports
+├── 📂 scripts/             # Utility scripts
+├── 📂 tests/               # Unit tests (pytest)
+├── config.py               # App configuration
+├── run.py                  # Entry point
+├── requirements.txt        # Python dependencies
+└── .env.example            # Environment template
 ```
 
 ---
 
 ## 🔧 Configuration
 
-Create `.env` file:
+Copy `.env.example` to `.env` and configure:
 
-```
+```env
 # Flask
 FLASK_ENV=development
-FLASK_HOST=0.0.0.0
+FLASK_HOST=127.0.0.1
 FLASK_PORT=5000
+SECRET_KEY=your-secret-key-here
+
+# Database
+DATABASE_PATH=data/database/newstrace.db
 
 # Scraping
-SCRAPING_DELAY=3
-MAX_PROFILES_PER_OUTLET=50
-MIN_PROFILES_REQUIRED=30
+SCRAPING_DELAY=2
+MAX_RETRIES=3
+RESPECT_ROBOTS_TXT=True
 
-# Features
-ENABLE_CACHING=True
-PLAYWRIGHT_HEADLESS=True
-```
+# NLP
+SPACY_MODEL=en_core_web_sm
+ENABLE_SENTIMENT_ANALYSIS=True
 
----
-
-## 🐛 Troubleshooting
-
-### Module not found?
-```
-# Activate virtual environment first!
-venv\Scripts\activate  # Windows
-source venv/bin/activate  # Linux/Mac
-pip install -r requirements.txt
-```
-
-### Port already in use?
-```
-# Change port in .env
-FLASK_PORT=5001
-```
-
-### Playwright error?
-```
-playwright install
-```
-
-### spaCy model missing?
-```
-python -m spacy download en_core_web_sm
+# Export
+EXPORT_PATH=data/exports/
 ```
 
 ---
 
-## 🎯 Key Features Explained
+## 🧪 Running Tests
 
-### 🤖 Autonomous Detection
-```
-Input: "The Hindu"
-    ↓
-Search Engine Query
-    ↓
-URL Validation & Scoring
-    ↓
-Output: https://thehindu.com
-```
+```bash
+# Run all tests
+pytest tests/ -v
 
-### 🕷️ Smart Scraping
-```
-Dynamic content? → Playwright
-Static HTML?     → BeautifulSoup
-Adapts automatically!
-```
+# Run with coverage
+pytest tests/ --cov=app --cov-report=html
 
-### 🧠 NLP Pipeline
-```
-Raw Text
-    ↓
-spaCy → Entity Extraction
-    ↓
-NLTK  → Keyword Analysis
-    ↓
-LDA   → Topic Modeling
-    ↓
-Result: Beat Classification
-```
-
-### 📊 Influence Score
-```
-Score = 0.4 × Articles
-      + 0.3 × Topic Diversity
-      + 0.2 × Recency
-      + 0.1 × Cross-Outlet Bonus
-```
-
----
-
-## 🚀 Deployment
-
-### Local Development
-```
-python run.py
-```
-
-### Production (Gunicorn)
-```
-pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 run:app
-```
-
-### Docker (Coming Soon)
-```
-docker build -t newstrace .
-docker run -p 5000:5000 newstrace
+# Run specific test file
+pytest tests/test_scraper.py -v
 ```
 
 ---
 
 ## 🤝 Contributing
 
-```
-# Fork → Clone → Branch → Commit → Push → PR
-git checkout -b feature/amazing-feature
-git commit -m "Add amazing feature"
-git push origin feature/amazing-feature
-```
+Contributions, issues, and feature requests are welcome!
+
+1. **Fork** the repository
+2. Create your feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit your changes: `git commit -m 'Add AmazingFeature'`
+4. Push to the branch: `git push origin feature/AmazingFeature`
+5. Open a **Pull Request**
 
 ---
 
-## 📄 License
+## 📜 License
 
-MIT License - feel free to use for your projects!
-
----
-
-## 👥 Team
-
-**Team kur-kure Coders**  
-Built for **Hack of Thrones 2025** 🏆
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## 🏆 Acknowledgements
 
-- **spaCy** - NLP magic
-- **Playwright** - Reliable scraping
-- **NetworkX** - Graph algorithms
-- **Flask** - Elegant web framework
+- Built for **Hack of Thrones 2025** hackathon
+- Powered by [spaCy](https://spacy.io/), [Playwright](https://playwright.dev/python/), [NetworkX](https://networkx.org/), [Vis.js](https://visjs.org/)
+- Zero LLMs used — pure NLP + classical ML
 
 ---
 
 <div align="center">
 
-### ⭐ Star this repo if you like it!
+**Made with ❤️ by [Vishal Dubey](https://github.com/Vishaldubey2210)**
 
-**Made with ❤️ for transparent journalism**
+<br/>
 
-[⬆ Back to Top](#-newstrace)
+⭐ **Star this repo if you found it useful!** ⭐
+
+<br/>
+
+<img src="https://img.shields.io/github/stars/Vishaldubey2210/NewsTrace?style=social"/>
+<img src="https://img.shields.io/github/forks/Vishaldubey2210/NewsTrace?style=social"/>
 
 </div>
-```
-
-***
-
-## ✅ **WHAT'S DIFFERENT:**
-
-### ✂️ **Removed:**
-- Excessive details
-- Long explanations
-- Redundant sections
-
-### ✨ **Added:**
-- Clean badges
-- Visual table layouts
-- Quick 5-minute setup
-- Short feature descriptions
-- Icons & emojis
-- Centered headings
-- Clear structure
-
-### 🎯 **Key Sections:**
-1. **What is it** - 2 lines
-2. **Features** - Table format
-3. **Quick Start** - 8 commands
-4. **Tech Stack** - Visual icons
-5. **Usage** - 4 simple steps
-6. **API** - Quick reference
-7. **Troubleshooting** - Common issues
-
-***
