@@ -1,9 +1,10 @@
-# Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
 .Python
+env/
+venv/
+.venv/
 build/
 develop-eggs/
 dist/
@@ -19,66 +20,12 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
-
-# Virtual Environment
-venv/
-ENV/
-env/
-.venv
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Logs
-*.log
-logs/
-*.log.*
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-data/database/*.db
-
-# Cache
-.cache/
-data/cache/
-__pycache__/
-*.pyc
-
-# Exports
-data/exports/*.csv
-data/exports/*.json
-
-# Environment
 .env
 .env.local
-.env.production
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Testing
+data/*.db
+data/cache/
+logs/*.log
 .pytest_cache/
 .coverage
 htmlcov/
-.tox/
-
-# Jupyter
-.ipynb_checkpoints
-
-# Playwright
-playwright/.cache/
-
-# Temporary
-*.tmp
-*.temp
-tmp/
-temp/
+.DS_Store
