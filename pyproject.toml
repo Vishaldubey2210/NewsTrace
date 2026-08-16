@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "newstrace"
+version = "2.0.0"
+description = "AI-Powered News Intelligence, Media Bias Detector & Sentiment Propagation Engine"
+readme = "README.md"
+authors = [{ name = "Vishal Dubey", email = "vishaldubey2210@gmail.com" }]
+requires-python = ">=3.10"
+keywords = ["nlp", "news-intelligence", "media-bias", "sentiment-analysis", "network-graphs", "web-scraping"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+dependencies = [
+    "flask>=3.0.0",
+    "beautifulsoup4>=4.12.0",
+    "requests>=2.31.0",
+    "spacy>=3.7.0",
+    "networkx>=3.2.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "nltk>=3.8.0",
+    "textblob>=0.17.0",
+    "scikit-learn>=1.3.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "flake8>=6.1.0",
+    "black>=23.7.0",
+    "playwright>=1.40.0"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
