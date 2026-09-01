@@ -1,67 +1,26 @@
 openapi: 3.0.3
 info:
-  title: NewsTrace Intelligence API
-  description: High-performance AI News Aggregation, Sentiment Extraction & Media Bias Analysis Engine.
-  version: 2.0.0
-  contact:
-    name: Vishal Dubey
-    url: https://github.com/Vishaldubey2210/NewsTrace
-servers:
-  - url: http://localhost:5000
-    description: Local Server
-
+  title: NewsTrace Media Intelligence API
+  version: 2.1.0
+  description: Autonomous media profiling, NLP bias scoring, and network graphs.
 paths:
   /api/health:
     get:
-      summary: Health check probe
+      summary: API Health Check
       responses:
         '200':
-          description: API is operational
-
-  /api/search:
+          description: Service is healthy
+  /api/profile:
     post:
-      summary: Search articles across tracked media outlets
+      summary: Profile a media outlet
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - query
               properties:
-                query:
+                outlet_name:
                   type: string
-                  example: "artificial intelligence"
-                limit:
-                  type: integer
-                  example: 10
       responses:
         '200':
-          description: Search results with sentiment annotations
-
-  /api/analyze/sentiment:
-    post:
-      summary: Analyze sentiment of a raw text or URL
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - text
-              properties:
-                text:
-                  type: string
-                  example: "The renewable energy sector reported record growth and groundbreaking advancements."
-      responses:
-        '200':
-          description: Sentiment polarity and subjectivity scores
-
-  /api/network/graph:
-    get:
-      summary: Get entity co-occurrence network graph
-      responses:
-        '200':
-          description: Nodes and edges for interactive D3 graph rendering
+          description: Profiling result
