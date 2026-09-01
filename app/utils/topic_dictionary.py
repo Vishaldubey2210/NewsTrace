@@ -1,0 +1,1 @@
+BEATS = {'Tech': ['ai', 'software']}
