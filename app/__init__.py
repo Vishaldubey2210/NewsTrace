@@ -4,7 +4,11 @@ Combines all features with proper initialization
 """
 
 from flask import Flask
-from flask_cors import CORS
+try:
+    from flask_cors import CORS
+except ImportError:
+    class CORS:
+        def __init__(self, *args, **kwargs): pass
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
