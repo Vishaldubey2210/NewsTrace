@@ -1,1 +1,5 @@
-{"node_group": 229, "density": 0.88, "clusters": 4}
+{
+  "topology_id": 229,
+  "cluster_modularity": 0.74,
+  "density": 0.14
+}
