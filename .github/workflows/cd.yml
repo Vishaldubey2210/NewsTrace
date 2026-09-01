@@ -1,0 +1,18 @@
+name: NewsTrace Continuous Deployment
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  deploy-render:
+    name: Trigger Render Production Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Render Service
+        run: echo "Production deployment triggered."
