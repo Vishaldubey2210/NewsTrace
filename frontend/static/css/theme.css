@@ -1,0 +1,20 @@
+/* NewsTrace Futuristic Dark Theme Variables */
+:root {
+    --bg-space: #0b0f19;
+    --bg-card-glass: rgba(18, 24, 38, 0.75);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --accent-cyan: #00f2fe;
+    --accent-purple: #764ba2;
+    --accent-indigo: #667eea;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-rose: #f43f5e;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+}
+
+body {
+    background-color: var(--bg-space) !important;
+    color: var(--text-primary) !important;
+}
