@@ -186,13 +186,9 @@ def validate_config():
         for issue in issues:
             print(f"  - {issue}")
         return False
-    else:
-        print("[CONFIG] ✅ All directories validated successfully")
-        print(f"[CONFIG] ✅ Database: {Config.DATABASE_PATH}")
-        print(f"[CONFIG] ✅ Exports: {Config.EXPORT_PATH}")
-        print(f"[CONFIG] ✅ Logs: {Config.LOG_FILE}")
-        return True
+    return True
 
 
-# Run validation
-validate_config()
+if __name__ == '__main__':
+    validate_config()
+

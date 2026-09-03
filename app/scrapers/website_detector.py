@@ -6,12 +6,32 @@ Autonomously detects official website from outlet name
 
 import logging
 from typing import Optional, Dict
-import validators
-from duckduckgo_search import DDGS
+import re
+try:
+    import validators
+    def is_valid_url(url: str) -> bool:
+        return bool(validators.url(url))
+except ImportError:
+    URL_REGEX = re.compile(
+        r'^(?:http|ftp)s?://'
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
+        r'localhost|'
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+        r'(?::\d+)?'
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE
+    )
+    def is_valid_url(url: str) -> bool:
+        return bool(url and URL_REGEX.match(url))
+
+try:
+    from duckduckgo_search import DDGS
+except ImportError:
+    DDGS = None
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import time
+
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +101,7 @@ class WebsiteDetector:
                     continue
                 
                 # Validate URL
-                if not validators.url(url):
+                if not is_valid_url(url):
                     continue
                 
                 # Check if it's likely the official site

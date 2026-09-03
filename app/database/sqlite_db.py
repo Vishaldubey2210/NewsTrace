@@ -58,7 +58,7 @@ class DatabaseManager:
             with self.get_connection() as conn:
                 conn.executescript(schema_sql)
             
-            logger.info("✅ Database initialized successfully")
+            logger.info("[OK] Database initialized successfully")
             return True
             
         except Exception as e:
@@ -81,14 +81,14 @@ class DatabaseManager:
                     outlet.detected_at.isoformat() if outlet.detected_at else datetime.now().isoformat(),
                     json.dumps(outlet.metadata)
                 ))
-                logger.info(f"✅ Created outlet: {outlet.name} (ID: {cursor.lastrowid})")
+                logger.info(f"[OK] Created outlet: {outlet.name} (ID: {cursor.lastrowid})")
                 return cursor.lastrowid
                 
         except sqlite3.IntegrityError:
-            logger.warning(f"⚠️  Outlet '{outlet.name}' already exists")
+            logger.warning(f"[WARN] Outlet '{outlet.name}' already exists")
             return None
         except Exception as e:
-            logger.error(f"❌ Failed to create outlet: {e}")
+            logger.error(f"[ERROR] Failed to create outlet: {e}")
             return None
     
     def get_outlet_by_name(self, name: str) -> Optional[Outlet]:
@@ -180,10 +180,10 @@ class DatabaseManager:
                     WHERE id = ?
                 """, (datetime.now().isoformat(), journalist_count, outlet_id))
                 
-                logger.info(f"✅ Updated outlet {outlet_id}: {journalist_count} journalists")
+                logger.info(f"[OK] Updated outlet {outlet_id}: {journalist_count} journalists")
                 
         except Exception as e:
-            logger.error(f"❌ Error updating outlet: {e}")
+            logger.error(f"[ERROR] Error updating outlet: {e}")
     
     # ==================== JOURNALIST OPERATIONS ====================
     
@@ -214,7 +214,7 @@ class DatabaseManager:
                 return cursor.lastrowid
                 
         except Exception as e:
-            logger.error(f"❌ Failed to create journalist: {e}")
+            logger.error(f"[ERROR] Failed to create journalist: {e}")
             return None
     
     def get_journalists_by_outlet(self, outlet_id: int) -> List[Journalist]:
@@ -247,7 +247,7 @@ class DatabaseManager:
                     ))
             
         except Exception as e:
-            logger.error(f"❌ Error getting journalists: {e}")
+            logger.error(f"[ERROR] Error getting journalists: {e}")
         
         return journalists
     
@@ -280,7 +280,7 @@ class DatabaseManager:
                     ))
             
         except Exception as e:
-            logger.error(f"❌ Error getting all journalists: {e}")
+            logger.error(f"[ERROR] Error getting all journalists: {e}")
         
         return journalists
     
@@ -292,10 +292,10 @@ class DatabaseManager:
                     "UPDATE journalists SET influence_score = ? WHERE id = ?",
                     (score, journalist_id)
                 )
-                logger.info(f"✅ Updated influence score for journalist {journalist_id}: {score}")
+                logger.info(f"[OK] Updated influence score for journalist {journalist_id}: {score}")
                 
         except Exception as e:
-            logger.error(f"❌ Error updating influence score: {e}")
+            logger.error(f"[ERROR] Error updating influence score: {e}")
     
     # ==================== SCRAPING JOB OPERATIONS ====================
     
@@ -308,11 +308,11 @@ class DatabaseManager:
                     VALUES (?, 'running', ?)
                 """, (outlet_name, datetime.now().isoformat()))
                 
-                logger.info(f"✅ Created scraping job {cursor.lastrowid} for '{outlet_name}'")
+                logger.info(f"[OK] Created scraping job {cursor.lastrowid} for '{outlet_name}'")
                 return cursor.lastrowid
                 
         except Exception as e:
-            logger.error(f"❌ Error creating scraping job: {e}")
+            logger.error(f"[ERROR] Error creating scraping job: {e}")
             return 0
     
     def update_scraping_job(self, job_id: int, status: str, profiles_found: int = 0, error: str = None):
@@ -325,10 +325,10 @@ class DatabaseManager:
                     WHERE id = ?
                 """, (status, profiles_found, datetime.now().isoformat(), error, job_id))
                 
-                logger.info(f"✅ Updated job {job_id}: status={status}, profiles={profiles_found}")
+                logger.info(f"[OK] Updated job {job_id}: status={status}, profiles={profiles_found}")
                 
         except Exception as e:
-            logger.error(f"❌ Error updating scraping job: {e}")
+            logger.error(f"[ERROR] Error updating scraping job: {e}")
     
     def get_recent_jobs(self, limit: int = 10) -> List[ScrapingJob]:
         """Get recent scraping jobs"""
@@ -354,7 +354,7 @@ class DatabaseManager:
                     ))
             
         except Exception as e:
-            logger.error(f"❌ Error getting recent jobs: {e}")
+            logger.error(f"[ERROR] Error getting recent jobs: {e}")
         
         return jobs
     
@@ -380,7 +380,7 @@ class DatabaseManager:
             return None
             
         except Exception as e:
-            logger.error(f"❌ Error getting job by ID: {e}")
+            logger.error(f"[ERROR] Error getting job by ID: {e}")
             return None
     
     # ==================== UTILITY METHODS ====================
@@ -439,10 +439,10 @@ class DatabaseManager:
                 conn.execute("DELETE FROM topics")
                 conn.execute("DELETE FROM scraping_jobs")
                 
-            logger.info("✅ All data cleared from database")
+            logger.info("[OK] All data cleared from database")
             
         except Exception as e:
-            logger.error(f"❌ Error clearing data: {e}")
+            logger.error(f"[ERROR] Error clearing data: {e}")
 
 
 # Global database instance

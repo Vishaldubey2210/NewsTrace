@@ -1,18 +1,24 @@
 """Integration tests for NewsTrace Flask REST endpoints."""
-import pytest
+import unittest
 from app import create_app
+from config import get_config
 
-@pytest.fixture
-def client():
-    app = create_app()
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
 
-def test_health_endpoint(client):
-    res = client.get('/api/health')
-    assert res.status_code == 200
+class TestAPIEndpoints(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app(get_config('testing'))
+        self.app.config['TESTING'] = True
+        self.client = self.app.test_client()
 
-def test_home_page(client):
-    res = client.get('/')
-    assert res.status_code in [200, 302]
+    def test_health_endpoint(self):
+        res = self.client.get('/api/health')
+        self.assertEqual(res.status_code, 200)
+
+    def test_home_page(self):
+        res = self.client.get('/')
+        self.assertIn(res.status_code, [200, 302])
+
+
+if __name__ == '__main__':
+    unittest.main()
+

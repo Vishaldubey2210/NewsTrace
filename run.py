@@ -12,8 +12,12 @@ PROJECT_ROOT = Path(__file__).parent.resolve()
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # Import from root level
-from config import get_config  # ✅ Config at root
+from config import get_config
 from app import create_app
+
+# Expose WSGI application callable for production servers (Gunicorn, Waitress, uWSGI)
+env_name = os.getenv('FLASK_ENV', 'production')
+app = create_app(get_config(env_name))
 
 
 def main():

@@ -9,8 +9,10 @@ import time
 import logging
 from typing import Optional
 from urllib.parse import urlparse
-from urllib.robotparser import RobotFileParser
-from fake_useragent import UserAgent
+try:
+    from fake_useragent import UserAgent
+except ImportError:
+    UserAgent = None
 
 logger = logging.getLogger(__name__)
 
